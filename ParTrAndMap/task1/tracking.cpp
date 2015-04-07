@@ -42,7 +42,7 @@ void SevenPointsMethod()
 	cout <<  fundamentalMatrix;
 }
 
-void RANSACMethod()
+Mat RANSACMethod()
 {
 	random_device rd;
     mt19937 gen(rd());
@@ -63,14 +63,56 @@ void RANSACMethod()
 		}
 	}
 	Mat fundamentalMatrix = findFundamentalMat(Mat(points1), Mat(points2), CV_FM_RANSAC, 3.0, 0.99, noArray());
-	cout << fundamentalMatrix;
-	cout << "";
+	return fundamentalMatrix;
 }
+
+
+void findEssentalMatrix()
+{
+	Mat F = RANSACMethod();
+	 
+	//Mat F = (Mat_<double>(3,3) << 0, 0, 0, 0, 0, 100, 0, -100, 0);
+
+	Mat K = (Mat_<double>(3,3) << 1, 0, 50, 0, 1, 50, 0, 0, 1);
+	Mat KT(3, 3, DataType<double>::type);
+	KT = K.t();
+	Mat E = KT * F * K;
+
+	Mat w, u, vt;
+	SVDecomp(E, w, u, vt);
+	cout << w;
+
+	vector<double> a = w.col(0).row(0);
+	double sing = a[0];
+	Mat wTransf = w * (1 / sing);
+
+	Mat W = (Mat_<double>(3,3) << 0, -1, 0, 1, 0, 0, 0, 0, 1);
+	
+	Mat R = u * W * vt;
+	Mat u3 = (Mat_<double>(1,3) << 0, 0, 1);
+	Mat t = u * u3.t();
+	cout << R << "\n" << t << "\n\n";
+
+	Mat R2 = u * W * vt;
+	Mat u32 = (Mat_<double>(1,3) << 0, 0, 1);
+	Mat t2 = -1 * u * u3.t();
+	cout << R2 << "\n" << t2 << "\n\n";
+
+	Mat R3 = u * W.t() * vt;
+	Mat u33 = (Mat_<double>(1,3) << 0, 0, 1);
+	Mat t3 = u * u3.t();
+	cout << R3<< "\n" << t3 << "\n\n";
+
+	Mat R4 = u * W.t() * vt;
+	Mat u34 = (Mat_<double>(1,3) << 0, 0, 1);
+	Mat t4 = -1 * u * u3.t();
+	cout << R4<< "\n" << t4 << "\n\n";
+}
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	SevenPointsMethod();
-	RANSACMethod();
+	findEssentalMatrix();
 	return 0;
 }
 
