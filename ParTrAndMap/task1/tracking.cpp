@@ -66,49 +66,40 @@ Mat RANSACMethod()
 	return fundamentalMatrix;
 }
 
+void findE(Mat u, Mat W, Mat vt, int direct)
+{
+	Mat R = u * W * vt;
+	Mat u3 = (Mat_<double>(1,3) << 0, 0, 1);
+	Mat t = direct * u * u3.t();
+	cout << R << "\n" << t << "\n";
+
+	Mat x = (Mat_<double>(3,1) << 50, 50, 50);
+	cout << R * x + t;
+
+	cout << "\n\n";
+}
 
 void findEssentalMatrix()
 {
 	Mat F = RANSACMethod();
-	 
-	//Mat F = (Mat_<double>(3,3) << 0, 0, 0, 0, 0, 100, 0, -100, 0);
 
 	Mat K = (Mat_<double>(3,3) << 1, 0, 50, 0, 1, 50, 0, 0, 1);
 	Mat KT(3, 3, DataType<double>::type);
 	KT = K.t();
 	Mat E = KT * F * K;
-
+	
 	Mat w, u, vt;
 	SVDecomp(E, w, u, vt);
-	cout << w;
-
-	vector<double> a = w.col(0).row(0);
-	double sing = a[0];
-	Mat wTransf = w * (1 / sing);
 
 	Mat W = (Mat_<double>(3,3) << 0, -1, 0, 1, 0, 0, 0, 0, 1);
 	
-	Mat R = u * W * vt;
-	Mat u3 = (Mat_<double>(1,3) << 0, 0, 1);
-	Mat t = u * u3.t();
-	cout << R << "\n" << t << "\n\n";
+	//4 варианта геометрического положения
 
-	Mat R2 = u * W * vt;
-	Mat u32 = (Mat_<double>(1,3) << 0, 0, 1);
-	Mat t2 = -1 * u * u3.t();
-	cout << R2 << "\n" << t2 << "\n\n";
-
-	Mat R3 = u * W.t() * vt;
-	Mat u33 = (Mat_<double>(1,3) << 0, 0, 1);
-	Mat t3 = u * u3.t();
-	cout << R3<< "\n" << t3 << "\n\n";
-
-	Mat R4 = u * W.t() * vt;
-	Mat u34 = (Mat_<double>(1,3) << 0, 0, 1);
-	Mat t4 = -1 * u * u3.t();
-	cout << R4<< "\n" << t4 << "\n\n";
+	findE(u, W, vt, 1);
+	findE(u, W, vt, -1);
+	findE(u, W.t(), vt, 1);
+	findE(u, W.t(), vt, -1);
 }
-
 
 int _tmain(int argc, _TCHAR* argv[])
 {
