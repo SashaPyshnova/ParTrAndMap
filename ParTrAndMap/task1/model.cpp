@@ -1,6 +1,3 @@
-// task1.cpp: определяет точку входа для консольного приложения.
-//
-
 #include "stdafx.h"
 
 #include "cv.h"
@@ -10,11 +7,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <random>
+#include <math.h>
+#include "geometry.h"
+#include "model.h"
 
 using namespace cv;
 using namespace std;
+using namespace PTAM;
 
-void SevenPointsMethod()
+void Model::SevenPointsMethod()
 {
 	/*7ми точечный метод для поиска фундаментальной матрицы 
 	вторая камера смещена по оси х на 100*/
@@ -39,10 +40,10 @@ void SevenPointsMethod()
 	points2[6] = Point2f(10, 10);
 
 	Mat fundamentalMatrix = findFundamentalMat(Mat(points1), Mat(points2), CV_FM_7POINT);
-	cout <<  fundamentalMatrix;
+	cout << fundamentalMatrix;
 }
 
-Mat RANSACMethod()
+void Model::generatePoints(vector<Point2f> &points1, vector<Point2f> &points2, vector<Point3f> &initPoints)
 {
 	random_device rd;
     mt19937 gen(rd());
@@ -50,8 +51,6 @@ Mat RANSACMethod()
 	int index = 0;
 	int cx = 50;
 	int cy = 50;
-	vector<Point2f> points1(0);
-	vector<Point2f> points2(0);
 	for (int u = 0; u < 101; u = u + 10) {
 		for (int v = 0; v < 101; v = v + 10) {
 			int z = dst(gen);
@@ -59,51 +58,27 @@ Mat RANSACMethod()
 			if ((x > -50 * z + 100) && (x <= 50 * z)) {
 				points1.push_back(Point(x / z + 50, v));
 				points2.push_back(Point((x - 100) / z + 50, v));
+				initPoints.push_back(Point3f(x, (v - 50) * z, z));
 			}
 		}
 	}
-	Mat fundamentalMatrix = findFundamentalMat(Mat(points1), Mat(points2), CV_FM_RANSAC, 3.0, 0.99, noArray());
-	return fundamentalMatrix;
 }
 
-void findE(Mat u, Mat W, Mat vt, int direct)
+void Model::findRightRAndt()
 {
-	Mat R = u * W * vt;
-	Mat u3 = (Mat_<double>(1,3) << 0, 0, 1);
-	Mat t = direct * u * u3.t();
-	cout << R << "\n" << t << "\n";
+	vector<Point2f> points1(0);
+	vector<Point2f> points2(0);
+	vector<Point3f> initPoints(0);
+	Model::generatePoints(points1, points2, initPoints);
+	Mat const K = (Mat_<double>(3,3) << 1, 0, 50, 0, 1, 50, 0, 0, 1);
+	Mat R = Mat_<double>(3, 3);
+	Mat t = Mat_<double>(3, 1);
+	Geometry::findRt(points1, points2, K, R, t);
+	Mat Proj1 = (Mat_<double>(3, 4) << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0);
+	Mat Proj2 = (Mat_<double>(3, 4) << 1, 0, 0, -100, 0, 1, 0, 0, 0, 0, 1, 0);
 
-	Mat x = (Mat_<double>(3,1) << 50, 50, 50);
-	cout << R * x + t;
-
-	cout << "\n\n";
-}
-
-void findEssentalMatrix()
-{
-	Mat F = RANSACMethod();
-
-	Mat K = (Mat_<double>(3,3) << 1, 0, 50, 0, 1, 50, 0, 0, 1);
-	Mat KT(3, 3, DataType<double>::type);
-	KT = K.t();
-	Mat E = KT * F * K;
+	//cvTriangulatePoints(Proj1, Proj2, points1, points2, initP);
 	
-	Mat w, u, vt;
-	SVDecomp(E, w, u, vt);
-
-	Mat W = (Mat_<double>(3,3) << 0, -1, 0, 1, 0, 0, 0, 0, 1);
-	
-	//4 варианта геометрического положения
-
-	findE(u, W, vt, 1);
-	findE(u, W, vt, -1);
-	findE(u, W.t(), vt, 1);
-	findE(u, W.t(), vt, -1);
-}
-
-int _tmain(int argc, _TCHAR* argv[])
-{
-	findEssentalMatrix();
-	return 0;
+	cout << R << "\n" << t ;
 }
 
