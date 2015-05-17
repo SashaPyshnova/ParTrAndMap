@@ -10,6 +10,8 @@
 #include <math.h>
 #include "geometry.h"
 #include "model.h"
+#include <fstream>
+#include <iostream>
 
 using namespace cv;
 using namespace std;
@@ -43,6 +45,45 @@ void Model::SevenPointsMethod()
 	cout << fundamentalMatrix;
 }
 
+void Model::writeProjPointsInFile(vector<Point2f> points1, vector<Point2f> points2)
+{
+	fstream projFile("pointsProj.txt", fstream::trunc | fstream::out);
+	projFile.trunc;
+	projFile << points1.size() << "\n";
+	for (int i = 0; i < points1.size(); i++) {
+		projFile << points1.at(i).x << " " << points1.at(i).y << " " << points2.at(i).x << " " << points2.at(i).y << "\n";
+	}
+	projFile.close();
+}
+
+void Model::writeInitPointsInFile(vector<Point3f> initPoints, string fileName)
+{
+	fstream initPointsFile(fileName, fstream::trunc | fstream::out);
+	initPointsFile.trunc;
+	initPointsFile << initPoints.size() << "\n";
+	for (int i = 0; i < initPoints.size(); i++) {
+		initPointsFile << initPoints.at(i).x << " " << initPoints.at(i).y << " " << initPoints.at(i).z << "\n";
+	}
+	initPointsFile.close();
+}
+
+void Model::readFromFile(vector<Point2f> &points1, vector<Point2f> &points2)
+{
+	fstream pointsProjFile;
+	pointsProjFile.open("pointsProj.txt");
+	
+	int numberOfPoints;
+	pointsProjFile >> numberOfPoints;
+	double x = 0.0;
+	double y = 0.0;
+	for (int i = 0; i < numberOfPoints; i++) {
+		pointsProjFile >> x >> y;
+		points1.push_back(Point2f(x, y));
+		pointsProjFile >> x >> y;
+		points2.push_back(Point2f(x, y));
+	}
+}
+
 void Model::generatePoints(vector<Point2f> &points1, vector<Point2f> &points2, vector<Point3f> &initPoints)
 {
 	random_device rd;
@@ -51,17 +92,29 @@ void Model::generatePoints(vector<Point2f> &points1, vector<Point2f> &points2, v
 	int index = 0;
 	int cx = 50;
 	int cy = 50;
-	for (int u = 0; u < 101; u = u + 10) {
-		for (int v = 0; v < 101; v = v + 10) {
+	for (int u = 50; u < 101; u = u + 5) {
+		/*for (int v = 50; v < 101; v = v + 5) {
+			double z = dst(gen);
+			double x = z * (1.0 * u - 50.0);
+			if ((x > -50.0 * z + 100.0) && (x <= 50.0 * z)) {
+				points1.push_back(Point2f(x / z + 50.0, v));
+				points2.push_back(Point2f((x - 100.0) / z + 50.0, v)); 
+				initPoints.push_back(Point3f(x, (v * 1.0 - 50.0) * z, z));
+			}
+		}*/
+		for (int v = 50; v < 101; v = v + 5) {
 			int z = dst(gen);
 			int x = z * (u - 50);
 			if ((x > -50 * z + 100) && (x <= 50 * z)) {
-				points1.push_back(Point(x / z + 50, v));
-				points2.push_back(Point((x - 100) / z + 50, v));
+				points1.push_back(Point2f(x / z + 50, v));
+				points2.push_back(Point2f((x - 100) / z + 50, v));
 				initPoints.push_back(Point3f(x, (v - 50) * z, z));
 			}
 		}
 	}
+
+	Model::writeInitPointsInFile(initPoints, "initPoints.txt");
+	Model::writeProjPointsInFile(points1, points2);
 }
 
 void Model::findRightRAndt()
@@ -69,16 +122,16 @@ void Model::findRightRAndt()
 	vector<Point2f> points1(0);
 	vector<Point2f> points2(0);
 	vector<Point3f> initPoints(0);
-	Model::generatePoints(points1, points2, initPoints);
+	//Model::generatePoints(points1, points2, initPoints);
+	Model::readFromFile(points1, points2);
+
 	Mat const K = (Mat_<double>(3,3) << 1, 0, 50, 0, 1, 50, 0, 0, 1);
 	Mat R = Mat_<double>(3, 3);
 	Mat t = Mat_<double>(3, 1);
 	Geometry::findRt(points1, points2, K, R, t);
-	Mat Proj1 = (Mat_<double>(3, 4) << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0);
-	Mat Proj2 = (Mat_<double>(3, 4) << 1, 0, 0, -100, 0, 1, 0, 0, 0, 0, 1, 0);
-
-	//cvTriangulatePoints(Proj1, Proj2, points1, points2, initP);
 	
-	cout << R << "\n" << t ;
+	//vector<Point3f> initPointsRe = Geometry::triangulatePoints(points1, points2, K, R, (Mat_<double>(3, 1) << -100, 0, 0));
+	vector<Point3f> initPointsRe = Geometry::triangulatePoints(points1, points2, K, R, t);
+	//Model::writeInitPointsInFile(initPointsRe, "initPointsRe.txt");
 }
 

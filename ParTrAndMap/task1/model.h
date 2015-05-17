@@ -18,5 +18,8 @@ namespace PTAM {
 		private:
 			static void SevenPointsMethod();
 			static void generatePoints(std::vector<cv::Point2f> &points1, std::vector<cv::Point2f> &points2, std::vector<cv::Point3f> &initPoints);
+			static void writeProjPointsInFile(std::vector<cv::Point2f> points1, std::vector<cv::Point2f> points2);
+			static void writeInitPointsInFile(std::vector<cv::Point3f> initPoints, std::string fileName);
+			static void readFromFile(std::vector<cv::Point2f> &points1, std::vector<cv::Point2f> &points2);
 	};
 }

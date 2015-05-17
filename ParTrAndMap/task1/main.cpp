@@ -15,12 +15,12 @@ using namespace PTAM;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-//	Model::findRightRAndt();
+	Model::findRightRAndt();
 
-	vector<Mat_<double>> Rs(0);
+	/*vector<Mat_<double>> Rs(0);
 	vector<Mat_<double>> ts(0);
 
-	RealData::findDataFromTraces(Rs, ts);
+	RealData::findDataFromTraces(Rs, ts);*/
 	return 0;
 }
 
