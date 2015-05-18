@@ -1,4 +1,4 @@
-﻿Построение начато 17.05.2015 19:29:20.
+﻿Построение начато 18.05.2015 22:06:02.
      1>Проект "E:\Documents and Settings\55555\Рабочий стол\Новая папка\ParTrAndMap\ParTrAndMap\task1\task1.vcxproj" в узле 2 (целевые объекты build).
      1>InitializeBuildStatus:
          Создание "Debug\ParTrAndMap.unsuccessfulbuild", так как было задано "AlwaysCreate".
@@ -12,17 +12,15 @@
                  e:\program files\opencv\build\include\opencv2\flann\flann.hpp(278): см. ссылку на создание экземпляров класса шаблон при компиляции "cv::flann::Index_<T>"
      1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(53): warning C4018: <: несоответствие типов со знаком и без знака
      1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(64): warning C4018: <: несоответствие типов со знаком и без знака
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(81): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(81): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(83): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(83): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(109): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(109): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(110): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(110): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(111): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(111): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(111): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(85): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(85): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(104): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(104): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(105): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(105): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(106): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(106): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+     1>e:\documents and settings\55555\рабочий стол\новая папка\partrandmap\partrandmap\task1\model.cpp(106): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
        ManifestResourceCompile:
          Для всех выходных данных обновления не требуется.
        Link:
@@ -45,4 +43,4 @@
 
 Построение успешно завершено.
 
-Затраченное время: 00:00:11.59
+Затраченное время: 00:00:10.21

@@ -49,7 +49,7 @@ Mat Geometry::findE(vector<Point2f> points1, vector<Point2f> points2, Mat K)
 	if (firstEl.at(0) <= 0.0) 
 		E = E * (-1.0);
 
-	cout << E;
+	//cout << E;
 	return E;
 }
 
@@ -118,5 +118,12 @@ void Geometry::findRt(vector<Point2f> points1, vector<Point2f> points2, Mat K, M
 			if (!Geometry::chooseE(u, W.t(), vt, 1, points1, points2, K, R, t))
 				Geometry::chooseE(u, W.t(), vt, -1, points1, points2, K, R, t);
 
-	cout << R;
+	//cout << R;
  }
+
+void Geometry::findRtUsingInitPoints(vector<Point3f> initPoints, vector<Point2f> pointsProj, Mat &R, Mat &t, Mat K)
+{
+	Mat rvec;
+	cv::solvePnP(initPoints, pointsProj, K, noArray(), rvec, t);
+	cv::Rodrigues(rvec, R, noArray());
+}
