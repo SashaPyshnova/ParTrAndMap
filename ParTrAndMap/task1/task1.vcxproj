@@ -80,21 +80,31 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="frame.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="point.h" />
     <ClInclude Include="realData.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="geometry.h" />
+    <ClInclude Include="track.h" />
+    <ClInclude Include="x.h" />
+    <ClInclude Include="y.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="frame.cpp" />
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="point.cpp" />
     <ClCompile Include="realData.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="track.cpp" />
+    <ClCompile Include="x.cpp" />
+    <ClCompile Include="y.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

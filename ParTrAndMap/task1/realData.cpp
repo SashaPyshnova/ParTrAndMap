@@ -50,13 +50,10 @@ void RealData::initFrames(vector<vector<Point2f>> &frames)
 	}
 }
 
-void RealData::findDataFromTraces(vector<Mat_<double>> &Rs, vector<Mat_<double>> &ts)
+void RealData::findDataFromTraces(vector<Mat_<double>> &Rs, vector<Mat_<double>> &ts, vector<vector<Point2f>> &frames)
 {
 	Mat K = (Mat_<double>(3, 3) << 313.1852, 0, 217.9243, 0, 312.6343, 127.7195, 0, 0, 1);
 
-	vector<vector<Point2f>> frames(0);
-
-	initFrames(frames);
 	for (int i = 0; i < frames.size() - 1; i++) {
 		Mat R = Mat_<double>(3, 3);
 		Mat t = Mat_<double>(3, 1);
