@@ -88,8 +88,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="track.h" />
-    <ClInclude Include="x.h" />
-    <ClInclude Include="y.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="frame.cpp" />
@@ -103,8 +101,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="track.cpp" />
-    <ClCompile Include="x.cpp" />
-    <ClCompile Include="y.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
