@@ -90,7 +90,7 @@ Point3f Geometry::triangulateOnePoint(Mat P1, Mat P2, Point2f proj1, Point2f pro
 	return Point3f(vector<double>(x.row(0).col(0)).at(0), vector<double>(x.row(1).col(0)).at(0), vector<double>(x.row(2).col(0)).at(0));
 }
 
-vector<Point3f> Geometry::triangulatePoints(vector<Point2f> points1, vector<Point2f> points2, Mat K, Mat R, Mat t)
+vector<Point3f> Geometry::triangulatePoints(vector<Point2f> points1, vector<Point2f> points2, Mat K, Mat &R, Mat &t)
 {
 	Mat P1 = composeProjMatrix(K, Mat::eye(3, 3,  CV_8U), Mat::zeros(3, 1,  CV_8U));
 	Mat P2 = composeProjMatrix(K, R, t);

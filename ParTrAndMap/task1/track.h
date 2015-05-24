@@ -17,10 +17,12 @@ namespace PTAM {
 			Track();
 			~Track(void);
 			void addFrame(std::vector<cv::Point2f> points);
+			void initRecPoints(std::vector<cv::Point3f> recPoints);
+			std::vector<cv::Point3f> recPoints();
 
 	private:
 			std::list<std::list<Point*>> mPoints;
-			std::list<cv::Point3f> mRecPoints;
+			std::vector<cv::Point3f> mRecPoints;
 	};
 }
 

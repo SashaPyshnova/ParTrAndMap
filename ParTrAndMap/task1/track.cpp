@@ -31,3 +31,13 @@ void Track::addFrame(vector<Point2f> points)
 	frm.addPoints(points, *this);
 	mPoints.push_back(frm.points());
 }
+
+void Track::initRecPoints(vector<Point3f> recPoints)
+{
+	mRecPoints = recPoints;
+}
+
+vector<Point3f> Track::recPoints()
+{
+	return mRecPoints;
+}

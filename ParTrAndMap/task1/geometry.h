@@ -15,7 +15,7 @@ namespace PTAM {
 	public:
 			static void findRt(std::vector<cv::Point2f> points1, std::vector<cv::Point2f> points2, cv::Mat K, cv::Mat &R, cv::Mat &t);
 			static std::vector<cv::Point3f> triangulatePoints(std::vector<cv::Point2f> points1, std::vector<cv::Point2f> points2
-					, cv::Mat K, cv::Mat R, cv::Mat t);
+					, cv::Mat K, cv::Mat &R, cv::Mat &t);
 			static void findRtUsingInitPoints(std::vector<cv::Point3f> initPoints
 					, std::vector<cv::Point2f> pointsProj, cv::Mat &R, cv::Mat &t, cv::Mat K);
 
