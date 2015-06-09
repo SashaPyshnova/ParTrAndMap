@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-#include "cv.h"
+#include <opencv2/opencv.hpp> 
 #include "cxcore.h"
 #include "highgui.h"
 
@@ -15,12 +15,12 @@ namespace PTAM {
 	class Point
 	{
 	public:
-			Point(cv::Point2f coordinates
+			Point(cv::Point2d coordinates
 					, Frame& frame
 					, Track& track);
 
 	private:
-			cv::Point2f mCoordinates;
+			cv::Point2d mCoordinates;
 			Frame* mFrame;
 			Track* mTrack;
 	};

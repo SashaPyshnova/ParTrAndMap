@@ -4,7 +4,7 @@
 #include "point.h"
 #include "frame.h"
 
-#include "cv.h"
+#include <opencv2/opencv.hpp> 
 #include "cxcore.h"
 #include "highgui.h"
 
@@ -25,19 +25,19 @@ Track::~Track(void)
 {
 }
 
-void Track::addFrame(vector<Point2f> points) 
+void Track::addFrame(vector<Point2d> points) 
 {
 	Frame frm;
 	frm.addPoints(points, *this);
 	mPoints.push_back(frm.points());
 }
 
-void Track::initRecPoints(vector<Point3f> recPoints)
+void Track::initRecPoints(vector<Point3d> recPoints)
 {
 	mRecPoints = recPoints;
 }
 
-vector<Point3f> Track::recPoints()
+vector<Point3d> Track::recPoints()
 {
 	return mRecPoints;
 }

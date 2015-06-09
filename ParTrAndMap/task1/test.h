@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 
-#include "cv.h"
+#include <opencv2/opencv.hpp> 
 #include "cxcore.h"
 #include "highgui.h"
 
@@ -17,14 +17,19 @@ namespace PTAM {
 		Test(void);
 		~Test(void);
 		void findRecTrajectory(std::string fileName);
+		void findRecTrajectoryReal(std::string fileName);
 
 	private: 
-		std::vector<cv::Point3f> readTrajectory(std::string fileName);
-		std::vector<std::vector<cv::Point2f>> createProjections(std::vector<cv::Point3f> trajectory
-				, std::vector<cv::Point3f> initPoints);
-		std::vector<cv::Point3f> generatePoints(int numberOfPoints);
-		void write3fPointsInFile(std::vector<cv::Point3f> initPoints, std::string fileName);
-		void write2fPointsInFile(std::vector<std::vector<cv::Point2f>> points, std::string fileName);
+		std::vector<cv::Point3d> readTrajectory(std::string fileName);
+		std::vector<std::vector<cv::Point2d>> createProjections(std::vector<cv::Point3d> trajectory
+				, std::vector<cv::Point3d> initPoints);
+		std::vector<cv::Point3d> generatePoints(int numberOfPoints);
+		void write3fPointsInFile(std::vector<cv::Point3d> initPoints, std::string fileName);
+		void write2fPointsInFile(std::vector<std::vector<cv::Point2d>> points, std::string fileName); 
+		void readTandR(std::string fileName, std::vector<cv::Point3d> &t, std::vector<cv::Point3d> &R);
+		std::vector<std::vector<cv::Point2d>> createProjections(std::vector<cv::Point3d> initPoints,  std::vector<cv::Point3d> t
+				, std::vector<cv::Point3d> R, cv::Mat K);
+		void writeTrajectory(std::vector<cv::Mat> R, std::vector<cv::Mat> t, std::string fileName);
 	};
 }
 

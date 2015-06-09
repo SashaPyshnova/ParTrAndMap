@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "cv.h"
+#include <opencv2/opencv.hpp> 
 #include "cxcore.h"
 #include "highgui.h"
 
@@ -23,29 +23,29 @@ void Model::SevenPointsMethod()
 	вторая камера смещена по оси х на 100*/
 
 	int pointCount = 7;
-	vector<Point2f> points1(pointCount);
-	vector<Point2f> points2(pointCount);
+	vector<Point2d> points1(pointCount);
+	vector<Point2d> points2(pointCount);
 
-	points1[0] = Point2f(50, 50);
-	points2[0] = Point2f(49, 50);
-	points1[1] = Point2f(50, 50);
-	points2[1] = Point2f(49.5, 50);
-	points1[2] = Point2f(51, 51);
-	points2[2] = Point2f(41, 51);
-	points1[3] = Point2f(51, 51);
-	points2[3] = Point2f(46, 51);
-	points1[4] = Point2f(50, 0);
-	points2[4] = Point2f(0, 0);
-	points1[5] = Point2f(40, 20);
-	points2[5] = Point2f(20, 20);
-	points1[6] = Point2f(60, 10);
-	points2[6] = Point2f(10, 10);
+	points1[0] = Point2d(50, 50);
+	points2[0] = Point2d(49, 50);
+	points1[1] = Point2d(50, 50);
+	points2[1] = Point2d(49.5, 50);
+	points1[2] = Point2d(51, 51);
+	points2[2] = Point2d(41, 51);
+	points1[3] = Point2d(51, 51);
+	points2[3] = Point2d(46, 51);
+	points1[4] = Point2d(50, 0);
+	points2[4] = Point2d(0, 0);
+	points1[5] = Point2d(40, 20);
+	points2[5] = Point2d(20, 20);
+	points1[6] = Point2d(60, 10);
+	points2[6] = Point2d(10, 10);
 
 	Mat fundamentalMatrix = findFundamentalMat(Mat(points1), Mat(points2), CV_FM_7POINT);
 	cout << fundamentalMatrix;
 }
 
-void Model::writeProjPointsInFile(vector<Point2f> points1, vector<Point2f> points2)
+void Model::writeProjPointsInFile(vector<Point2d> points1, vector<Point2d> points2)
 {
 	fstream projFile("pointsProj.txt", fstream::trunc | fstream::out);
 	projFile.trunc;
@@ -56,7 +56,7 @@ void Model::writeProjPointsInFile(vector<Point2f> points1, vector<Point2f> point
 	projFile.close();
 }
 
-void Model::writeInitPointsInFile(vector<Point3f> initPoints, string fileName)
+void Model::writeInitPointsInFile(vector<Point3d> initPoints, string fileName)
 {
 	fstream initPointsFile(fileName, fstream::trunc | fstream::out);
 	initPointsFile.trunc;
@@ -67,7 +67,7 @@ void Model::writeInitPointsInFile(vector<Point3f> initPoints, string fileName)
 	initPointsFile.close();
 }
 
-void Model::readFromFile(vector<vector<Point2f>> &projPoints)
+void Model::readFromFile(vector<vector<Point2d>> &projPoints)
 {
 	fstream pointsProjFile;
 	pointsProjFile.open("SQProj.txt");
@@ -79,16 +79,16 @@ void Model::readFromFile(vector<vector<Point2f>> &projPoints)
 	double x = 0.0;
 	double y = 0.0;
 	for (int j = 0; j < numberOfFrames; j++) {
-		vector<Point2f> frame;
+		vector<Point2d> frame;
 		for (int i = 0; i < numberOfPoints; i++) {
 			pointsProjFile >> x >> y;
-			frame.push_back(Point2f(x, y));
+			frame.push_back(Point2d(x, y));
 		}
 		projPoints.push_back(frame);
 	}
 }
 
-void Model::generatePoints(vector<Point2f> &points1, vector<Point2f> &points2, vector<Point3f> &initPoints)
+void Model::generatePoints(vector<Point2d> &points1, vector<Point2d> &points2, vector<Point3d> &initPoints)
 {
 	random_device rd;
     mt19937 gen(rd());
@@ -101,18 +101,18 @@ void Model::generatePoints(vector<Point2f> &points1, vector<Point2f> &points2, v
 			double z = dst(gen);
 			double x = z * (1.0 * u - 50.0);
 			if ((x > -50.0 * z + 100.0) && (x <= 50.0 * z)) {
-				points1.push_back(Point2f(x / z + 50.0, v));
-				points2.push_back(Point2f((x - 100.0) / z + 50.0, v)); 
-				initPoints.push_back(Point3f(x, (v * 1.0 - 50.0) * z, z));
+				points1.push_back(Point2d(x / z + 50.0, v));
+				points2.push_back(Point2d((x - 100.0) / z + 50.0, v)); 
+				initPoints.push_back(Point3d(x, (v * 1.0 - 50.0) * z, z));
 			}
 		}
 		/*for (int v = 50; v < 101; v = v + 5) {
 			int z = dst(gen);
 			int x = z * (u - 50);
 			if ((x > -50 * z + 100) && (x <= 50 * z)) {
-				points1.push_back(Point2f(x / z + 50, v));
-				points2.push_back(Point2f((x - 100) / z + 50, v));
-				initPoints.push_back(Point3f(x, (v - 50) * z, z));
+				points1.push_back(Point2d(x / z + 50, v));
+				points2.push_back(Point2d((x - 100) / z + 50, v));
+				initPoints.push_back(Point3d(x, (v - 50) * z, z));
 			}
 		}*/
 	}
@@ -123,8 +123,8 @@ void Model::generatePoints(vector<Point2f> &points1, vector<Point2f> &points2, v
 
 void Model::findRightRAndt()
 {
-	vector<vector<Point2f>> projPoints(0);
-	vector<Point3f> initPoints(0);
+	vector<vector<Point2d>> projPoints(0);
+	vector<Point3d> initPoints(0);
 	//Model::generatePoints(points1, points2, initPoints);
 	Model::readFromFile(projPoints);
 
@@ -134,7 +134,7 @@ void Model::findRightRAndt()
 	Geometry::findRt(projPoints.at(0), projPoints.at(1), K, R, t);
 	cout << R << "\n" << t << "\n";
 
-	vector<Point3f> initPointsRe = Geometry::triangulatePoints(projPoints.at(0), projPoints.at(1), K, R, t);
+	vector<Point3d> initPointsRe = Geometry::triangulatePoints(projPoints.at(0), projPoints.at(1), K, R, t);
 	//Model::writeInitPointsInFile(initPointsRe, "SQRe.txt");
 	Mat R3;
 	Mat t3;

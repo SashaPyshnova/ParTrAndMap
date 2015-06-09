@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "cv.h"
+#include <opencv2/opencv.hpp> 
 #include "cxcore.h"
 #include "highgui.h"
 
@@ -15,7 +15,6 @@ using namespace PTAM;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Test newTest;
-	newTest.findRecTrajectory("trajectory.txt");
+	newTest.findRecTrajectoryReal("tracesNew.txt");
 	return 0;
 }
-

@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-#include "cv.h"
+#include <opencv2/opencv.hpp> 
 #include "cxcore.h"
 #include "highgui.h"
 
@@ -18,7 +18,7 @@ namespace PTAM {
 	{
 	public:
 			Frame();
-			void addPoints(std::vector<cv::Point2f> points, Track &track);
+			void addPoints(std::vector<cv::Point2d> points, Track &track);
 			std::list<Point*> points();
 
 	private:
