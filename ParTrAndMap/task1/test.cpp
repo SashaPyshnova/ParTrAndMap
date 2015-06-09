@@ -200,4 +200,6 @@ void Test::findRecTrajectoryReal(string fileName)
 	vector<Mat> t;
 	newProc.getTrajectory(R, t);
 	Test::writeTrajectory(R, t, "recTraj.txt");
+
+	Test::write3fPointsInFile(newProc.getInitPoints(), "initPoints.txt");
 }

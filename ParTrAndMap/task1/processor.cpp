@@ -43,8 +43,6 @@ void Processor::initMap(vector<Point2d> frame1, vector<Point2d> frame2
 	Mat R;
 	Mat t;
 	Geometry::findRt(frame1, frame2, K, R, t); // Добавить R, t в траекторию
-	cout << R << "\n";
-	cout << t << "\n";
 
 	vector<Point3d> initPoints = Geometry::triangulatePoints(frame1, frame2, K, R, t);
 	mTrack.initRecPoints(initPoints);
@@ -64,8 +62,7 @@ void Processor::defineCameraPosition(vector<Point2d> frame, vector<Point3d> &rec
 	Mat R;
 	Mat t;
 	Geometry::findRtUsingInitPoints(mTrack.recPoints(), frame, R, t, K); // Добавить R, t в траекторию
-	cout << R << "\n";
-	cout << t << "\n";
+
 	recTrajectory.push_back(Point3d(t));
 	mSBA.addNewFrameInfo(frame, K, R, t);
 	mCount++;
@@ -158,4 +155,9 @@ void Processor::getTrajectory(vector<Mat> &R, vector<Mat> &t)
 {
 	R = mSBA.getRotMatr();
 	t = mSBA.getTVect();
+}
+
+vector<Point3d> Processor::getInitPoints()
+{
+	return mSBA.getInitPoints();
 }

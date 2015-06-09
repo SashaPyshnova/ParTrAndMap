@@ -22,6 +22,7 @@ namespace PTAM {
 		PTAM::Track getTrack();
 		std::vector<std::vector<cv::Point2d>> projError();
 		void getTrajectory(std::vector<cv::Mat> &R, std::vector<cv::Mat> &t);
+		std::vector<cv::Point3d> getInitPoints();
 
 	private:
 		void initMap(std::vector<cv::Point2d> frame1, std::vector<cv::Point2d> frame2
